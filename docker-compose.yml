@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  postgres:
+    container_name: job_vacancy_management_postgres
+    image: postgres
+    ports:
+      - 5433:5432
+    environment:
+      - POSTGRES_PASSWORD=368091
+      - POSTGRES_DB=job_vacancy_management
