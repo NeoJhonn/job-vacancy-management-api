@@ -29,8 +29,13 @@ public class Job {
   private String benefits;
 
   @ManyToOne
-  @JoinColumn(name = "company_id")
+  // (insertable = false, updatable = false) --> O ORM vai entender que vai ser usado para 
+  // manipulações de dados o companyId de baixo
+  @JoinColumn(name = "company_id", insertable = false, updatable = false)
   private Company company;
+
+  @Column(name ="company_id")
+  private UUID companyId;
 
   @CreationTimestamp
   private LocalDateTime createdAt;
