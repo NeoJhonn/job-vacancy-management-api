@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.jhonnyazevedo.job_vacancy_management.entities.Company;
 import br.com.jhonnyazevedo.job_vacancy_management.services.CreateCompanyService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/company")
@@ -20,7 +21,7 @@ public class CompanyController {
   private CreateCompanyService service;
 
   @PostMapping("/")
-  public ResponseEntity<Object> create(@RequestBody Company company) {
+  public ResponseEntity<Object> create(@Valid @RequestBody Company company) {
 
     try {
       var result =  this.service.execute(company);
