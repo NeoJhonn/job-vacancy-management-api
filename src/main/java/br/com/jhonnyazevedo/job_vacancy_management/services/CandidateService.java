@@ -3,24 +3,28 @@ package br.com.jhonnyazevedo.job_vacancy_management.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.jhonnyazevedo.job_vacancy_management.entities.Company;
+import br.com.jhonnyazevedo.job_vacancy_management.entities.Candidate;
 import br.com.jhonnyazevedo.job_vacancy_management.exceptions.UserFoundException;
-import br.com.jhonnyazevedo.job_vacancy_management.repositories.CompanyRepository;
+import br.com.jhonnyazevedo.job_vacancy_management.repositories.CandidateRepository;
+
 
 @Service
-public class CreateCompanyService {
-
-  @Autowired
-  private CompanyRepository repository;
+public class CandidateService {
   
-  public Company execute(Company company) {
+  @Autowired
+  CandidateRepository repository;
+
+  public Candidate execute(Candidate candidate) {
     // Verifica se não existe um usuário com mesmo username ou email cadastrado
     this.repository
-    .findByUsernameOrEmail(company.getUsername(), company.getEmail())
+    .findByUsernameOrEmail(candidate.getUsername(), candidate.getEmail())
     .ifPresent((user) -> {
       throw new UserFoundException();
     });
 
-    return this.repository.save(company);
+
+    this.repository.save(candidate);
+
+    return candidate;
   }
 }

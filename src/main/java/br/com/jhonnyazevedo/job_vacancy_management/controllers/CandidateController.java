@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.jhonnyazevedo.job_vacancy_management.entities.Candidate;
-import br.com.jhonnyazevedo.job_vacancy_management.services.CreateCandidateService;
+import br.com.jhonnyazevedo.job_vacancy_management.services.CandidateService;
 import jakarta.validation.Valid;
 
 @RestController
@@ -16,7 +16,7 @@ import jakarta.validation.Valid;
 public class CandidateController {
 
   @Autowired
-  private CreateCandidateService service;
+  private CandidateService service;
 
   @PostMapping("/")
   public ResponseEntity<Object> create(@Valid @RequestBody Candidate candidate) {
