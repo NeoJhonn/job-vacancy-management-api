@@ -1,6 +1,5 @@
 package br.com.jhonnyazevedo.job_vacancy_management.controllers;
 
-import javax.naming.spi.DirStateFactory.Result;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.jhonnyazevedo.job_vacancy_management.entities.Company;
-import br.com.jhonnyazevedo.job_vacancy_management.services.CreateCompanyService;
+import br.com.jhonnyazevedo.job_vacancy_management.services.CompanyService;
 import jakarta.validation.Valid;
 
 @RestController
@@ -18,7 +17,7 @@ import jakarta.validation.Valid;
 public class CompanyController {
 
   @Autowired
-  private CreateCompanyService service;
+  private CompanyService service;
 
   @PostMapping("/")
   public ResponseEntity<Object> create(@Valid @RequestBody Company company) {

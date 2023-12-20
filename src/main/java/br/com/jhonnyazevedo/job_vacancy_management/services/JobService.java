@@ -7,7 +7,7 @@ import br.com.jhonnyazevedo.job_vacancy_management.entities.Job;
 import br.com.jhonnyazevedo.job_vacancy_management.repositories.JobRepository;
 
 @Service
-public class CreateJobService {
+public class JobService {
 
   @Autowired
   private JobRepository repository;

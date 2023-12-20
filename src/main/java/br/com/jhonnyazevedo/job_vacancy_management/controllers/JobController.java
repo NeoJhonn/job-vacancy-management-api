@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.jhonnyazevedo.job_vacancy_management.entities.Job;
-import br.com.jhonnyazevedo.job_vacancy_management.services.CreateJobService;
+import br.com.jhonnyazevedo.job_vacancy_management.services.JobService;
 import jakarta.validation.Valid;
 
 @RestController
@@ -15,7 +15,7 @@ import jakarta.validation.Valid;
 public class JobController {
 
   @Autowired
-  private CreateJobService services;
+  private JobService services;
 
   @PostMapping("/")
   public Job create(@Valid @RequestBody Job job) {
