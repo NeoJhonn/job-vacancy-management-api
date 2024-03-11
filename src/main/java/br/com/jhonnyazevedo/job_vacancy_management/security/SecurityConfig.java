@@ -12,7 +12,18 @@ public class SecurityConfig {
   SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     // desabilita o Spring Security na aplicação para poder fazer a segurança personalizada
     // do meu jeito
-    http.csrf(csrf -> csrf.disable());
+    http.csrf(csrf -> csrf.disable())
+        .authorizeHttpRequests(auth -> {
+          // permitir que essas rotas da api sejam acessadas sem autenticação
+          auth.requestMatchers("/candidate/").permitAll()
+              .requestMatchers("/company/").permitAll();
+
+          // para as demais rotas, o caso a rota "/job/" será necessário autenticação
+          auth.anyRequest().authenticated();
+        })
+
+
+    ;
 
     return http.build();
   }
