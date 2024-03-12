@@ -1,6 +1,7 @@
 package br.com.jhonnyazevedo.job_vacancy_management.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.jhonnyazevedo.job_vacancy_management.entities.Company;
@@ -12,6 +13,9 @@ public class CompanyService {
 
   @Autowired
   private CompanyRepository repository;
+
+  @Autowired // foi configurado em SecurityConfig
+  PasswordEncoder passwordEncoder;
   
   public Company execute(Company company) {
     // Verifica se não existe um usuário com mesmo username ou email cadastrado
@@ -20,6 +24,10 @@ public class CompanyService {
     .ifPresent((user) -> {
       throw new UserFoundException();
     });
+
+    // criptografar senha da Company
+    var password = passwordEncoder.encode(company.getPassword());
+    company.setPassword(password);
 
     return this.repository.save(company);
   }
