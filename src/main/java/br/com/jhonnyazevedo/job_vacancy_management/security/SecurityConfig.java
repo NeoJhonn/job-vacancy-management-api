@@ -18,7 +18,8 @@ public class SecurityConfig {
         .authorizeHttpRequests(auth -> {
           // permitir que essas rotas da api sejam acessadas sem autenticação
           auth.requestMatchers("/candidate/").permitAll()
-              .requestMatchers("/company/").permitAll();
+              .requestMatchers("/company/").permitAll()
+              .requestMatchers("/auth/company").permitAll();
 
           // para as demais rotas, no caso a rota "/job/" será necessário autenticação
           auth.anyRequest().authenticated();
