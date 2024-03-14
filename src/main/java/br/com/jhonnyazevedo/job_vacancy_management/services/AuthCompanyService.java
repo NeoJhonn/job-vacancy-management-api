@@ -11,6 +11,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.naming.AuthenticationException;
+import java.time.Duration;
+import java.time.Instant;
 
 @Service
 public class AuthCompanyService {
@@ -46,6 +48,7 @@ public class AuthCompanyService {
         // Se estiver correta -> Gerar o token
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
         var token = JWT.create().withIssuer("Javagas")
+            .withExpiresAt(Instant.now().plus(Duration.ofHours(2)))// tempo de duração do token, no caso 2 horas(Duration.ofHours(2)
             .withSubject(company.getId().toString())//passa o id da Company e converte pra String
             .sign(algorithm);
 
