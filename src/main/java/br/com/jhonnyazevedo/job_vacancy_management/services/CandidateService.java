@@ -13,7 +13,7 @@ import br.com.jhonnyazevedo.job_vacancy_management.repositories.CandidateReposit
 public class CandidateService {
   
   @Autowired
-  CandidateRepository repository;
+  private CandidateRepository repository;
 
   @Autowired
   private PasswordEncoder passwordEncoder;
