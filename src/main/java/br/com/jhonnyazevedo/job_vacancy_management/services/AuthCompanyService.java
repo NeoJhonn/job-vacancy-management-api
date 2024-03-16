@@ -18,6 +18,7 @@ import java.time.Instant;
 public class AuthCompanyService {
 
     // Peguei o valor do application.propeties e setei na variável secretKey
+    // Senha mestre para meu tokens
     @Value("${security.token.secrete}")
     private String secretKey;
 
@@ -35,6 +36,7 @@ public class AuthCompanyService {
                 }
         );
 
+        System.out.println("Existe a company");
         // Caso exista a Company
         // Verificar se a senha esta correta
         //                                           (senha passada pelo Front, senha do banco com criptografia)
@@ -51,6 +53,8 @@ public class AuthCompanyService {
             .withExpiresAt(Instant.now().plus(Duration.ofHours(2)))// tempo de duração do token, no caso 2 horas(Duration.ofHours(2)
             .withSubject(company.getId().toString())//passa o id da Company e converte pra String
             .sign(algorithm);
+
+        System.out.println(token);
 
         return token;
     }

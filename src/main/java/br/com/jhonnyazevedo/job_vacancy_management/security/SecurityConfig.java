@@ -13,7 +13,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 public class SecurityConfig {
 
     @Autowired
-    SecurityFilter securityFilter;
+    private SecurityFilter securityFilter;
 
   @Bean // notação que sobrescreve o método original do Spring Security
   SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -32,8 +32,6 @@ public class SecurityConfig {
         // Adiconar filtros nos endpoints que necessitam autenticação
         // passa como parâmetro o filtro que criamos, o caso a classe securityFilter
         .addFilterBefore(securityFilter, BasicAuthenticationFilter.class);
-    ;
-
 
     return http.build();
   }

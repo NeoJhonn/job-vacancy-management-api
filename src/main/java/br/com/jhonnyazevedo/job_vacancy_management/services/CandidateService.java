@@ -16,7 +16,7 @@ public class CandidateService {
   CandidateRepository repository;
 
   @Autowired
-  PasswordEncoder passwordEncoder;
+  private PasswordEncoder passwordEncoder;
 
   public Candidate execute(Candidate candidate) {
     // Verifica se não existe um usuário com mesmo username ou email cadastrado

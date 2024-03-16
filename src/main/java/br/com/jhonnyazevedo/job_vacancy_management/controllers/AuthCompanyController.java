@@ -21,6 +21,7 @@ public class AuthCompanyController {
 
     @PostMapping("/company")
     public ResponseEntity<Object> create(@RequestBody AuthCompanyDTO authCompanyDTO) {
+        System.out.println("Entrou no controller");
         try {
             var result = this.authCompanyService.execute(authCompanyDTO);
             return ResponseEntity.ok().body(result);
