@@ -25,6 +25,7 @@ public class CompanyController {
     try {
       var result =  this.service.execute(company);
       return ResponseEntity.ok().body(result);
+
     } catch (Exception e) {
       return ResponseEntity.badRequest().body(e.getMessage());
     }

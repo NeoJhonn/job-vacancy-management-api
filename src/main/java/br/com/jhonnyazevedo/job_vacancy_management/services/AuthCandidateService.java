@@ -20,7 +20,7 @@ import java.util.Arrays;
 public class AuthCandidateService {
 
     // Peguei o valor do application.propeties e setei na variável secretKey
-    // Senha mestre para meu tokens
+    // Senha mestre para meus tokens
     @Value("${security.token.secrete.candidate}")
     private String secretKey;
 
@@ -47,9 +47,10 @@ public class AuthCandidateService {
 
         // Se estiver correta -> Gerar o token
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
+        var expiresIn = Instant.now().plus(Duration.ofMinutes(10));
         var token = JWT.create()
                 .withIssuer("Javagas")
-                .withExpiresAt(Instant.now().plus(Duration.ofMinutes(10)))// tempo de duração do token, no caso 10min(Duration.ofMinutes(10))
+                .withExpiresAt(expiresIn)// tempo de duração do token, no caso 10min(Duration.ofMinutes(10))
                 .withClaim("role", Arrays.asList("candidate"))// role do usuário, no caso um Candidate
                 .withSubject(candidate.getId().toString())//passa o id do Candidate e converte pra String
                 .sign(algorithm);
@@ -57,6 +58,7 @@ public class AuthCandidateService {
         var authCandidateResponse = AuthCandidateResponseDTO
                 .builder()
                 .access_token(token)
+                .expires_in(expiresIn.toEpochMilli())
                 .build();
 
         return authCandidateResponse;

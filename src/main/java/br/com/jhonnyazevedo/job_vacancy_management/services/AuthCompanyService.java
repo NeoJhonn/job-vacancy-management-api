@@ -26,7 +26,7 @@ public class AuthCompanyService {
     private CompanyRepository companyRepository;
 
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     public String execute(AuthCompanyDTO authCompanyDTO) throws AuthenticationException {
         // Verificar se a Company existe, se não existir lançar uma exceção
@@ -36,11 +36,11 @@ public class AuthCompanyService {
                 }
         );
 
-        System.out.println("Existe a company");
         // Caso exista a Company
         // Verificar se a senha esta correta
         //                                           (senha passada pelo Front, senha do banco com criptografia)
-        var passwordMatches = this.passwordEncoder.matches(authCompanyDTO.getPassword(), company.getPassword());
+        var passwordMatches = this.passwordEncoder
+                .matches(authCompanyDTO.getPassword(), company.getPassword());
 
         // Se não estiver correta -> Erro
         if (!passwordMatches) {
@@ -54,7 +54,7 @@ public class AuthCompanyService {
             .withSubject(company.getId().toString())//passa o id da Company e converte pra String
             .sign(algorithm);
 
-        System.out.println(token);
+
 
         return token;
     }

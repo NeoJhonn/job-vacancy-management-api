@@ -22,9 +22,10 @@ public class SecurityConfig {
     http.csrf(csrf -> csrf.disable())
         .authorizeHttpRequests(auth -> {
           // permitir que essas rotas da api sejam acessadas sem autenticação
-          auth.requestMatchers("/candidate/").permitAll()
-              .requestMatchers("/company/").permitAll()
-              .requestMatchers("/auth/company").permitAll();
+          auth.requestMatchers("/company/").permitAll()
+              .requestMatchers("/candidate/").permitAll()
+              .requestMatchers("/candidate/auth").permitAll()
+              .requestMatchers("/company/auth").permitAll();
 
           // para as demais rotas, no caso a rota "/job/" será necessário autenticação
           auth.anyRequest().authenticated();
