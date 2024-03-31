@@ -1,6 +1,6 @@
 package br.com.jhonnyazevedo.job_vacancy_management.security;
 
-import br.com.jhonnyazevedo.job_vacancy_management.providers.JWTProvider;
+import br.com.jhonnyazevedo.job_vacancy_management.providers.JWTCompanyProvider;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,10 +15,10 @@ import java.io.IOException;
 import java.util.Collections;
 
 @Component
-public class SecurityFilter extends OncePerRequestFilter {
+public class SecurityCompanyFilter extends OncePerRequestFilter {
 
     @Autowired
-    private JWTProvider jwtProvider;
+    private JWTCompanyProvider jwtCompanyProvider;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
@@ -33,25 +33,28 @@ public class SecurityFilter extends OncePerRequestFilter {
         // verificar se esta pegando o token do header
         System.out.println("Pegou o header = "+header);
 
-        if (header != null) {
-            var subjectToken = this.jwtProvider.validateToken(header);
+        if (request.getRequestURI().startsWith("/company")) {
 
-            if (subjectToken.isEmpty()) {
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                return;
+            if (header != null) {
+                var subjectToken = this.jwtCompanyProvider.validateToken(header);
+
+                if (subjectToken.isEmpty()) {
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                    return;
+                }
+
+                // passa o id da company para ser salva quando for criado um novo Job
+                request.setAttribute("company_id", subjectToken);
+                UsernamePasswordAuthenticationToken auth =
+                        new UsernamePasswordAuthenticationToken(
+                                subjectToken,
+                                null,
+                                Collections.emptyList()
+                        );
+
+                // Injetar o auth no SpringSecurity
+                SecurityContextHolder.getContext().setAuthentication(auth);
             }
-
-            // passa o id da company para ser salva quando for criado um novo Job
-            request.setAttribute("company_id", subjectToken);
-            UsernamePasswordAuthenticationToken auth =
-                    new UsernamePasswordAuthenticationToken(
-                            subjectToken,
-                            null,
-                            Collections.emptyList()
-                    );
-
-            // Injetar o auth no SpringSecurity
-            SecurityContextHolder.getContext().setAuthentication(auth);
         }
 
         // passa o filtro pro controller

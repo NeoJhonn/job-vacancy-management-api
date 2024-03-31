@@ -13,7 +13,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 public class SecurityConfig {
 
     @Autowired
-    private SecurityFilter securityFilter;
+    private SecurityCompanyFilter securityCompanyFilter;
 
     @Autowired
     private SecurityCandidateFilter securityCandidateFilter;
@@ -33,16 +33,17 @@ public class SecurityConfig {
           // para as demais rotas, no caso a rota "/job/" será necessário autenticação
           auth.anyRequest().authenticated();
         })
+
+        // Adiconar filtros nos endpoints que necessitam autenticação
+        // passa como parâmetro o filtro que criamos, no caso a classe
+        // securityCandidateFilter
+        .addFilterBefore(securityCandidateFilter, BasicAuthenticationFilter.class)
+
         // Adiconar filtros nos endpoints que necessitam autenticação
         // passa como parâmetro o filtro que criamos, o caso a classe securityFilter
-        .addFilterBefore(securityFilter, BasicAuthenticationFilter.class)
+        .addFilterBefore(securityCompanyFilter, BasicAuthenticationFilter.class);
 
-            // Adiconar filtros nos endpoints que necessitam autenticação
-            // passa como parâmetro o filtro que criamos, no caso a classe
-            // securityCandidateFilter
-        .addFilterBefore(securityCandidateFilter, BasicAuthenticationFilter.class);
-
-    return http.build();
+      return http.build();
   }
 
   @Bean // criptografar senhas
