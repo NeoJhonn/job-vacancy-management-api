@@ -4,6 +4,7 @@ import br.com.jhonnyazevedo.job_vacancy_management.services.ProfileCandidateServ
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import br.com.jhonnyazevedo.job_vacancy_management.entities.Candidate;
@@ -35,6 +36,7 @@ public class CandidateController {
   }
 
   @GetMapping("/")
+  @PreAuthorize("hasRole('CANDIDATE')")// só que tem a role "candidate" terá acesso ao endpoint pelo SpringSecurity
   public ResponseEntity<Object> get(HttpServletRequest request) {
 
     var idCandidate = request.getAttribute("candidate_id");

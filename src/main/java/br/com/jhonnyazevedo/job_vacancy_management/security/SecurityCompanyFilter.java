@@ -25,7 +25,7 @@ public class SecurityCompanyFilter extends OncePerRequestFilter {
         FilterChain filterChain)
             throws ServletException, IOException {
         //Zerando o contexto do usuário
-        SecurityContextHolder.getContext().setAuthentication(null);
+        //SecurityContextHolder.getContext().setAuthentication(null);
 
         // pega o token e armazena em header
         String header = request.getHeader("Authorization");

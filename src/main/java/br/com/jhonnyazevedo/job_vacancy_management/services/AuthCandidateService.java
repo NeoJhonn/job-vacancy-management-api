@@ -51,7 +51,7 @@ public class AuthCandidateService {
         var token = JWT.create()
                 .withIssuer("Javagas")
                 .withExpiresAt(expiresIn)// tempo de duração do token, no caso 10min(Duration.ofMinutes(10))
-                .withClaim("role", Arrays.asList("candidate"))// role do usuário, no caso um Candidate
+                .withClaim("role", Arrays.asList("CANDIDATE"))// role do usuário, no caso um Candidate
                 .withSubject(candidate.getId().toString())//passa o id do Candidate e converte pra String
                 .sign(algorithm);
 
