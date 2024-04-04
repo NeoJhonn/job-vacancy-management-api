@@ -4,6 +4,7 @@ import br.com.jhonnyazevedo.job_vacancy_management.dtos.JobDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,16 +17,17 @@ import jakarta.validation.Valid;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/job")
+@RequestMapping("/company/job")
 public class JobController {
 
   @Autowired
-  private JobService services;
+  private JobService service;
 
   @Autowired
   ModelMapper mapper;
 
   @PostMapping("/")
+  @PreAuthorize("hasRole('COMPANY')")
   public Job create(@Valid @RequestBody JobDTO jobDTO, HttpServletRequest request) {
     // Pega o id da company que esta autenticada
     var companyId = request.getAttribute("company_id");
@@ -44,7 +46,7 @@ public class JobController {
     var job = mapper.map(jobDTO, Job.class);
     job.setCompanyId(UUID.fromString(companyId.toString()));
 
-    return this.services.execute(job);
+    return this.service.execute(job);
   }
   
 }

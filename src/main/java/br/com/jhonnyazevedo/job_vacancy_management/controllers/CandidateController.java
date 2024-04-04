@@ -36,7 +36,7 @@ public class CandidateController {
   }
 
   @GetMapping("/")
-  @PreAuthorize("hasRole('CANDIDATE')")// só que tem a role "candidate" terá acesso ao endpoint pelo SpringSecurity
+  @PreAuthorize("hasRole('CANDIDATE')")// só quem tem a role "candidate" terá acesso ao endpoint pelo SpringSecurity
   public ResponseEntity<Object> get(HttpServletRequest request) {
 
     var idCandidate = request.getAttribute("candidate_id");
