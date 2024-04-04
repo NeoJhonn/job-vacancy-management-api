@@ -13,10 +13,10 @@ import br.com.jhonnyazevedo.job_vacancy_management.repositories.CandidateReposit
 public class CandidateService {
   
   @Autowired
-  CandidateRepository repository;
+  private CandidateRepository repository;
 
   @Autowired
-  PasswordEncoder passwordEncoder;
+  private PasswordEncoder passwordEncoder;
 
   public Candidate execute(Candidate candidate) {
     // Verifica se não existe um usuário com mesmo username ou email cadastrado

@@ -15,7 +15,7 @@ public class CompanyService {
   private CompanyRepository repository;
 
   @Autowired // foi configurado em SecurityConfig
-  PasswordEncoder passwordEncoder;
+  private PasswordEncoder passwordEncoder;
   
   public Company execute(Company company) {
     // Verifica se não existe um usuário com mesmo username ou email cadastrado
@@ -29,6 +29,8 @@ public class CompanyService {
     var password = passwordEncoder.encode(company.getPassword());
     company.setPassword(password);
 
-    return this.repository.save(company);
+    this.repository.save(company);
+
+    return company;
   }
 }
