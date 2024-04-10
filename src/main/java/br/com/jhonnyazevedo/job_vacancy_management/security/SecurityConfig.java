@@ -20,6 +20,13 @@ public class SecurityConfig {
     @Autowired
     private SecurityCandidateFilter securityCandidateFilter;
 
+    //rotas do Swagger para o Spring Security liberar
+    private static final String[] SWAGGER_LIST = {
+            "/swagger-ui/**",
+            "/v3/api-docs/**",
+            "/swagger-resources/**"
+    };
+
   @Bean // notação que sobrescreve o método original do Spring Security
   SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     // desabilita o Spring Security na aplicação para poder fazer a segurança personalizada
@@ -30,9 +37,13 @@ public class SecurityConfig {
           auth.requestMatchers("/company/").permitAll()
               .requestMatchers("/candidate/").permitAll()
               .requestMatchers("/candidate/auth").permitAll()
-              .requestMatchers("/company/auth").permitAll();
+              .requestMatchers("/company/auth").permitAll()
+              // autoriazando rota do ui do Swagger
+              // disponível em "/swagger-ui/inder.html" no browser
+              .requestMatchers(SWAGGER_LIST).permitAll();
 
-          // para as demais rotas, no caso a rota "/job/" será necessário autenticação
+
+            // para as demais rotas, no caso a rota "/job/" será necessário autenticação
           auth.anyRequest().authenticated();
         })
 
