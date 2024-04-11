@@ -1,5 +1,7 @@
 package br.com.jhonnyazevedo.job_vacancy_management.controllers;
 
+import br.com.jhonnyazevedo.job_vacancy_management.entities.Job;
+import br.com.jhonnyazevedo.job_vacancy_management.services.ListAllJobsByFilterService;
 import br.com.jhonnyazevedo.job_vacancy_management.services.ProfileCandidateService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import br.com.jhonnyazevedo.job_vacancy_management.entities.Candidate;
 import br.com.jhonnyazevedo.job_vacancy_management.services.CandidateService;
 import jakarta.validation.Valid;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -22,6 +25,9 @@ public class CandidateController {
 
   @Autowired
   private ProfileCandidateService profileCandidateService;
+
+  @Autowired
+  private ListAllJobsByFilterService listAllJobsByFilterService;
 
   @PostMapping("/")
   public ResponseEntity<Object> create(@Valid @RequestBody Candidate candidate) {
@@ -49,5 +55,13 @@ public class CandidateController {
       return ResponseEntity.badRequest().body(e.getMessage());
     }
   }
+
+  @GetMapping("/job")
+  @PreAuthorize("hasRole('CANDIDATE')")// só quem tem a role "candidate" terá acesso ao endpoint pelo SpringSecurity
+  public List<Job> findJobsByFilter(@RequestParam String filter) {
+    return this.listAllJobsByFilterService.execute(filter);
+  }
+
+
 
 }
